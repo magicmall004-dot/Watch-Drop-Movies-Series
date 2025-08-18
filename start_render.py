@@ -1,7 +1,9 @@
 import os
 import threading
-import time
 from fastapi import FastAPI
+import uvicorn
+import time
+import subprocess
 
 app = FastAPI()
 
@@ -9,19 +11,18 @@ app = FastAPI()
 def root():
     return {"status": "Watch-Drop bot is running"}
 
-# Function to run your existing bot
+# Function to run your bot as a separate process
 def run_bot():
-    # Replace this with your main bot file
-    # If your bot is bot/main.py:
     try:
-        exec(open("bot/main.py").read())
+        # Replace with the command that normally runs your bot
+        # Example if you run: python bot/main.py
+        subprocess.call(["python", "bot/main.py"])
     except Exception as e:
         print("Error running bot:", e)
 
-# Start bot in background thread so web server keeps running
+# Start the bot in a background thread
 threading.Thread(target=run_bot, daemon=True).start()
 
-# Bind to Render port
+# Start web server (must bind to Render $PORT)
 port = int(os.environ.get("PORT", 10000))
-import uvicorn
 uvicorn.run(app, host="0.0.0.0", port=port)
