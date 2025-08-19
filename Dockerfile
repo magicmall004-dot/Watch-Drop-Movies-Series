@@ -25,4 +25,4 @@ COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/pytho
 
 COPY --from=builder /bot /bot
 
-CMD ["python", "-m", "bot.main"]
+CMD ["python", "start_render.py"]
